@@ -1,0 +1,4 @@
+id,name,address,location,types,distance,phone_number,website
+48572BB70C6182059545149CBF7D7655,Bean Bar Cafe,"250 4th St, San Francisco, CA 94103, USA","{'lat': 37.782493, 'lng': -122.402019}","['cafe', 'food', 'store']",101,,
+BD2E2285D0774AC637AAEBA2748D18F4,IndiTummy - @ Metreon,"@ Metreon, 135 4th St Suite 4540, San Francisco, CA 94103, USA","{'lat': 37.784296, 'lng': -122.403586}","['cafe', 'food']",152,+14087139923,https://www.inditummy.com/
+3461028807BC250BAC0F00BB6C70505C,Starbucks,"789 Mission St, San Francisco, CA 94103, USA","{'lat': 37.784431, 'lng': -122.40382}","['cafe', 'food', 'store']",177,+14153436272,https://www.starbucks.com/store-locator/store/92309
