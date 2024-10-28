@@ -98,31 +98,46 @@ def reverse_geocode(location):
 def calculate_driving_matrix(origins, destinations):
     conn = http.client.HTTPSConnection("trueway-matrix.p.rapidapi.com")
     headers = {
-        'x-rapidapi-key': "5b18cb5cb1msh75d91bed144ff14p17e377jsnd7ae035bedb5",
+        'x-rapidapi-key': "5b18cb5cb1msh75d91bed144ff14p17e377jsnd7ae035bedb5",  # Replace with your actual API key
         'x-rapidapi-host': "trueway-matrix.p.rapidapi.com"
     }
     try:
+        # Formulate the request
         conn.request("GET", f"/CalculateDrivingMatrix?origins={origins}&destinations={destinations}", headers=headers)
         res = conn.getresponse()
         data = res.read()
         matrix_info = json.loads(data.decode("utf-8"))
-        if isinstance(matrix_info, dict) and "rows" in matrix_info:
-            matrix_data.extend(matrix_info["rows"])
-            save_to_csv(matrix_data, 'matrix_results.csv')
+        
+        # Check if response contains matrix data
+        if "distances" in matrix_info:
+            # Process and save matrix data if found
+            save_to_csv(matrix_info["distances"], 'driving_matrix.csv')
+            print("Driving matrix data retrieved and saved successfully.")
+            return matrix_info["distances"]
         else:
-            print("No driving matrix information found.")
+            # Log the full response for debugging if no distances found
+            print("No driving matrix information found. Full response:")
+            print(json.dumps(matrix_info, indent=2))
+            return None
     except Exception as e:
         print(f"Error retrieving driving matrix: {e}")
+        return None
+
+# Coordinates for two locations in Bangalore, India
+origins = "12.9715987,77.5945627"  # MG Road, Bangalore
+destinations = "12.839157,77.677418"  # Electronic City, Bangalore
+
+# Run the function with these coordinates
+calculate_driving_matrix(origins, destinations)
 
 # Example usages for the APIs
-stops = "40.629041,-74.025606;40.630099,-73.993521;40.644895,-74.013818;40.627177,-73.980853"
+stops = "13.108225922813784,77.58094729480572;13.102719090767396,77.579687830924232;13.026702844939722,77.51381367326027;13.02311230584062,77.50428271296745"
 distance_km = get_route_distance(stops)
 if distance_km:
     print(f"Distance for route: {distance_km} km")
 
-get_nearby_places("37.783366,-122.402325")
-reverse_geocode("37.7879493,-122.3961974")
-calculate_driving_matrix("40.629041,-74.025606;40.630099,-73.993521", "40.644895,-74.013818;40.627177,-73.980853")
+get_nearby_places("12.9715987,77.5945627;12.839157,77.677418")
+reverse_geocode("13.126673959848691,77.61428680623204")
 
 # Load the sales data
 results_path = '/Users/tanishta/Desktop/GitHub/SCOPE/Dataset/salesdaily.csv'
